@@ -15,11 +15,12 @@ endif
 OBJ = $(SRC:%.c=$(OUTPUT_DIR)/%.o)
 
 $(NAME): $(OUT_DIRS) $(OBJ)
-	@$(CC) $(OBJ) $(CFLAGS) -I$(INCLUDES) $(LFLAGS) -o $@
+	@echo $(SRC)
+	@$(CC) -shared $(CFLAGS) -I$(INCLUDES) $(LFLAGS) -o $@ $(OBJ)
 	@echo "COMPILATION"
 
 $(OUTPUT_DIR)/%.o: %.c
-	@$(CC) $(CFLAGS) -I$(INCLUDES) $(LFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -I$(INCLUDES) $(LFLAGS) -c -fPIC $< -o $@
 	@echo -e "$< to $@\n"
 
 $(OUT_DIRS):
