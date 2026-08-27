@@ -1,13 +1,15 @@
-#include "includes/alg.h"
+#include <ncurses.h>
+#include "includes/lag.h"
 #include <unistd.h>
 
 int main()
 {
-	t_alg_window	win;
-	alg_init();
-	alg_init_window(&win, 10, 10, 0, 0);
-	sleep(1);
-	write(1, "FISH\n", 5);
-	sleep(1);
-	alg_destroy_window(&win);
+	lag_window			win;
+	lag_window_infos	win_infos;
+
+	win_infos = (lag_window_infos){.width = 20, .height = 10, .row = 2, .col = 2, .flags = IS_RESIZABLE};
+	lag_init();
+	lag_init_window(&win, &win_infos);
+	while (0) {refresh();}
+	lag_destroy_window(&win);
 }

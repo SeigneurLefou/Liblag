@@ -1,4 +1,6 @@
-NAME		= libalg.so
+LIB_DIR		= lib/
+NAME_SO		= $(LIB_DIR)liblag.so
+NAME_A		= $(LIB_DIR)liblag.a
 
 OUTPUT_DIR	= build
 
@@ -12,11 +14,11 @@ INCLUDES	= includes
 
 LFLAGS		= -lncurses -lm
 
-include src/alg_ctx/alg_ctx.make
-include src/alg_buffer/alg_buffer.make
-include src/alg_draw/alg_draw.make
-include src/alg_event/alg_event.make
-include src/alg_time/alg_time.make
-include src/alg_window/alg_window.make
+include src/lag_ctx/lag_ctx.make
+include src/lag_buffer/lag_buffer.make
+include src/lag_draw/lag_draw.make
+include src/lag_event/lag_event.make
+include src/lag_time/lag_time.make
+include src/lag_window/lag_window.make
 
 include		src/action.make

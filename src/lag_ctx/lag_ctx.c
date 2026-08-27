@@ -1,6 +1,6 @@
-#include "alg_ctx.h"
+#include "lag_ctx.h"
 
-bool	alg_ctx() {
+bool	lag_init() {
 	if (!initscr()) {
 		return (false);
 	}

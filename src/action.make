@@ -14,10 +14,15 @@ endif
 
 OBJ = $(SRC:%.c=$(OUTPUT_DIR)/%.o)
 
-$(NAME): $(OUT_DIRS) $(OBJ)
-	@echo $(SRC)
-	@$(CC) -shared $(CFLAGS) -I$(INCLUDES) $(LFLAGS) -o $@ $(OBJ)
-	@echo "COMPILATION"
+$(NAME_SO): $(OUT_DIRS) $(OBJ)
+	mkdir -p $(LIB_DIR)
+	@$(CC) -shared $(CFLAGS) -I$(INCLUDES) -o $@ $(OBJ) $(LFLAGS)
+	@echo "COMPILATION SHARED LIBRARY"
+
+$(NAME_A): $(OUT_DIRS) $(OBJ)
+	mkdir -p $(LIB_DIR)
+	@ar crs $@ $(OBJ)
+	@echo "COMPILATION STATIC LIBRARY"
 
 $(OUTPUT_DIR)/%.o: %.c
 	@$(CC) $(CFLAGS) -I$(INCLUDES) $(LFLAGS) -c -fPIC $< -o $@
@@ -26,14 +31,14 @@ $(OUTPUT_DIR)/%.o: %.c
 $(OUT_DIRS):
 	@mkdir -p $(OUT_DIRS)
 
-all: $(NAME)
+all: $(NAME_A) $(NAME_SO)
 
 clean:
 	@rm -rf $(OUTPUT_DIR)
 	@echo "CLEAN"
 
 fclean: clean
-	@rm -f $(NAME)
+	@rm -rf $(LIB_DIR)
 	@echo "FCLEAN"
 
 re: fclean all
