@@ -1,3 +1,8 @@
+/**
+ * @file lag_window.c
+ * @brief Window lifecycle and resizing function implementations.
+ */
+
 #include "lag_window.h"
 
 void lag_init_window(lag_window *win, lag_window_infos *win_infos) {
