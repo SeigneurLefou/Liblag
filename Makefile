@@ -16,7 +16,8 @@ LFLAGS		= -lncurses -lm
 
 include src/lag_ctx/lag_ctx.make
 include src/lag_draw/lag_draw.make
-include src/lag_draw/lag_pixel.make
+include src/lag_buffer/lag_buffer.make
+include src/lag_pixel/lag_pixel.make
 include src/lag_event/lag_event.make
 include src/lag_time/lag_time.make
 include src/lag_window/lag_window.make

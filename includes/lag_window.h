@@ -51,7 +51,7 @@ typedef struct s_lag_window {
  * @param[out] win       Pointer to the window structure to initialize.
  * @param[in,out] win_infos Configuration parameters (bounds auto-corrected if invalid).
  */
-void lag_init_window(lag_window *win, lag_window_infos *win_infos);
+void lag_create_window(lag_window *win, lag_window_infos *win_infos);
 
 /**
  * @brief Clears, refreshes, and deletes an active LAG window handle.

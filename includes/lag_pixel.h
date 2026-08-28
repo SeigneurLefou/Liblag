@@ -1,8 +1,7 @@
 #ifndef LAG_PIXEL_H
 #define LAG_PIXEL_H
 
-#include <stdbool.h>
-#include <ncurses.h>
+#include "lag_utils.h"
 
 typedef struct	s_lag_color {
 	short	r;
@@ -16,6 +15,6 @@ typedef struct	s_lag_pixel {
 }	lag_pixel;
 
 bool	lag_init_color(short r, short g, short b);
-bool	lag_init_color(char c, lag_color bg, lag_color fg);
+bool	lag_init_pixel(lag_pixel *pixel, char c, lag_color bg, lag_color fg);
 
 #endif

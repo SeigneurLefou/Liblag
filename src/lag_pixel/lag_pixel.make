@@ -1,5 +1,5 @@
-DRAW_PATH = src/lag_draw
+PIXEL_PATH = src/lag_pixel
 
-SRC += $(DRAW_PATH)/lag_pixel.c
+SRC += $(PIXEL_PATH)/lag_pixel.c
 
-OUT_DIRS += $(OUTPUT_DIR)/$(DRAW_PATH)
+OUT_DIRS += $(OUTPUT_DIR)/$(PIXEL_PATH)

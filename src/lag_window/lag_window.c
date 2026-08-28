@@ -5,7 +5,7 @@
 
 #include "lag_window.h"
 
-void lag_init_window(lag_window *win, lag_window_infos *win_infos) {
+void lag_create_window(lag_window *win, lag_window_infos *win_infos) {
     int max_y, max_x;
 
     getmaxyx(stdscr, max_y, max_x);
@@ -43,7 +43,7 @@ bool lag_resize_window(lag_window *win, unsigned int width, unsigned int height)
     return (true);
 }
 
-void lag_autoresize_window(lag_window *win) {
+void	lag_autoresize_window(lag_window *win) {
     int max_y, max_x;
 
     getmaxyx(stdscr, max_y, max_x);

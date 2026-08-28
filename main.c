@@ -5,34 +5,34 @@
 int main(void)
 {
     lag_window win;
+    lag_buffer	buf;
     lag_window_infos win_infos;
     int width;
 
     win_infos = (lag_window_infos){
-        .width = 20,
-        .height = 10,
-        .row = 2,
-        .col = 2,
-        .flags = IS_RESIZABLE
+        .flags = IS_RESIZABLE | IS_FULLSCREEN
     };
 
     if (!lag_init())
         return (1);
 
-    lag_init_window(&win, &win_infos);
+    lag_create_window(&win, &win_infos);
+	lag_create_buffer_by_window(&buf, &win);
     width = 0;
 
     while (1) {
 		lag_autoresize_window(&win);
 
-        werase(win.win);
-        mvwprintw(win.win, 5, width, "#");
+		lag_clear_buffer(&buf);
+        werase(win.win); // TODO need to rework this. Maybe a funciton who take a pointer to another to do the loop
+        lag_draw_pixel(&buf, width, 0, '#');
+		lag_blit_buffer(&win, &buf, 0, 0);
         wrefresh(win.win);
 
         width = (width + 1) % win.infos->width;
-        napms(100);
+        napms(50);
     }
-
+	lag_destroy_buffer(&buf);
     lag_destroy_window(&win);
     endwin();
     return (0);

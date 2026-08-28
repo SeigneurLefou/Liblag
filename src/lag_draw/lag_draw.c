@@ -1,6 +1,8 @@
 #include "lag_draw.h"
 
-// TODO adapt draw function to t_lag_pixel type
-bool	lag_put_pixel(t_lag_window *win, uint x, uint y, char pixel) {
-	
+bool	lag_draw_pixel(lag_buffer *buf, uint x, uint y, char pixel) {
+	if (x >= buf->width || y >= buf->height)
+		return (false);
+	buf->content[y * buf->width + x] = pixel;
+	return (true);
 }
