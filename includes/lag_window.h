@@ -28,5 +28,7 @@ typedef struct s_lag_window {
 void	lag_init_window(lag_window *win,
 		lag_window_infos *win_infos);
 void	lag_destroy_window(lag_window *win);
+void	lag_autoresize_window(lag_window *win);
+bool	lag_resize_window(lag_window *win, unsigned int width, unsigned int height);
 
 #endif
