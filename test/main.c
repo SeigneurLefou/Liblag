@@ -25,9 +25,11 @@ int main(void)
 
 		lag_clear_buffer(&buf);
 		werase(win.win); // TODO need to rework this. Maybe a funciton who take a pointer to another to do the loop
-		lag_draw_pixel(&buf, width, 0, '#');
-		lag_draw_line(&buf, 2, 2, 50, 10, '*');
-		lag_draw_line(&buf, 2, 10, 50, 2, '|');
+		lag_draw_pixel(&buf, width, 30, '#');
+		lag_draw_line(&buf, 4, 3, 30, 20, '*');
+		lag_draw_line(&buf, 20, 10, 80, 2, '|');
+		lag_draw_rectangle(&buf, 0, 0, 40, 20, '*', DEFAULT);
+		lag_draw_rectangle(&buf, 80, 4, 90, 20, '|', FILL);
 		lag_blit_buffer(&win, &buf, 0, 0);
 		wrefresh(win.win);
 
