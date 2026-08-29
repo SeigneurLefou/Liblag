@@ -1,5 +1,5 @@
 #include <ncurses.h>
-#include "includes/lag.h"
+#include "../includes/lag.h"
 #include <unistd.h>
 
 int main(void)
