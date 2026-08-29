@@ -3,8 +3,10 @@
 
 #include "lag_utils.h"
 #include <stdbool.h>
+#include <stdlib.h>
 #include "lag_buffer.h"
 
-bool lag_draw_pixel(lag_buffer *buf, uint x, uint y, char c);
+bool	lag_draw_pixel(lag_buffer *buf, uint x, uint y, char c);
+bool	lag_draw_line(lag_buffer *buf, uint sx, uint sy, uint ex, uint ey, char pixel);
 
 #endif
