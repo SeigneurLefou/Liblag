@@ -4,17 +4,9 @@
  */
 
 #include "lag_ctx.h"
+#include <unistd.h>
 
 bool lag_init(void) {
-    if (!initscr()) {
-        return (false);
-    }
-    cbreak();
-    noecho();
-    curs_set(0);
-    keypad(stdscr, TRUE);
-    if (has_colors()) {
-        start_color();
-    }
-    return (true);
+	printf("\033[2J\033[H");
+	return (true);
 }

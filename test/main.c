@@ -17,27 +17,28 @@ int main(void)
 		return (1);
 
 	lag_create_window(&win, &win_infos);
-	lag_create_buffer_by_window(&buf, &win);
+	// TODO create a function who create a buffer in the same size of the window
+	lag_create_buffer(&buf, win.buf.width, win.buf.height);
 	width = 0;
 
 	while (1) {
 		lag_autoresize_window(&win);
 
+		lag_clear_window(&win);
 		lag_clear_buffer(&buf);
-		werase(win.win); // TODO need to rework this. Maybe a funciton who take a pointer to another to do the loop
 		lag_draw_pixel(&buf, width, 30, '#');
 		lag_draw_line(&buf, 4, 3, 30, 20, '*');
 		lag_draw_line(&buf, 20, 10, 80, 2, '|');
 		lag_draw_rectangle(&buf, 0, 0, 40, 20, '*', DEFAULT);
 		lag_draw_rectangle(&buf, 80, 4, 90, 20, '|', FILL);
-		lag_blit_buffer(&win, &buf, 0, 0);
-		wrefresh(win.win);
+		lag_blit_buffer(&buf, &win.buf, 0, 0);
+		// TODO add a lag_blit_window to pass only the &win
+		lag_render_window(&win);
 
 		width = (width + 1) % win.infos->width;
-		napms(50);
+		usleep(50000);
 	}
 	lag_destroy_buffer(&buf);
 	lag_destroy_window(&win);
-	endwin();
 	return (0);
 }

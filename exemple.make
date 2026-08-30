@@ -26,7 +26,7 @@ all: $(NAME)
 $(LAG_LIB):
 	@$(MAKE) -C $(LAG_DIR) all
 
-$(NAME): $(LAG_A) $(OBJS)
+$(NAME): $(LAG_LIB) $(OBJS)
 	$(CC) $(OBJS) $(LDFLAGS) -o $@
 
 $(OBJ_DIR)/%.o: %.c
