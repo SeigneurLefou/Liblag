@@ -4,7 +4,9 @@
 # include <sys/ioctl.h>
 # include <strings.h>
 # include <unistd.h>
+# include "lag_utils.h"
 # include "lag_buffer.h"
+# include "lag_pixel.h"
 
 typedef enum e_lag_window_flags {
 	IS_FULLSCREEN = 1,
