@@ -1,7 +1,7 @@
-#ifndef lag_TIME_H
-#define lag_TIME_H
+#ifndef LAG_TIME_H
+# define LAG_TIME_H
 
-#include <stdint.h>
+# include <stdint.h>
 
 uint32_t lag_get_ticks(void);
 void lag_delay(uint32_t ms);

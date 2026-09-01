@@ -1,12 +1,12 @@
 #ifndef LAG_BUFFER_H
-#define LAG_BUFFER_H
+# define LAG_BUFFER_H
 
-#include <string.h>
-#include <stdbool.h>
-#include <stdlib.h>
-#include "lag_pixel.h"
-#include "lag_vec2.h"
-#include "lag_utils.h"
+# include <string.h>
+# include <stdbool.h>
+# include <stdlib.h>
+# include "lag_pixel.h"
+# include "lag_vec2.h"
+# include "lag_utils.h"
 
 typedef struct s_lag_buffer {
 	int			width;

@@ -13,15 +13,16 @@ typedef struct s_lag_color {
 }	lag_color;
 
 typedef struct s_lag_pixel {
-	char		ch;
+	uint		ch;
 	lag_color	fg;
 	lag_color	bg;
 	bool		has_fg;
 	bool		has_bg;
 }	lag_pixel;
 
-bool lag_init_color(lag_color *color, uchar r, uchar g, uchar b);
-bool lag_init_pixel(lag_pixel *pixel, char c, lag_color *bg, lag_color *fg);
-bool lag_show_pixel(lag_pixel pixel);
+bool	lag_init_color(lag_color *color, uchar r, uchar g, uchar b);
+bool	lag_init_pixel(lag_pixel *pixel, uint c, lag_color *bg, lag_color *fg);
+int		lag_pixel_to_str(char *dest, lag_pixel pixel);
+bool	lag_show_pixel(lag_pixel pixel);
 
 #endif

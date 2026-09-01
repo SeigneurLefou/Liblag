@@ -1,7 +1,7 @@
 #ifndef LAG_VEC2_H
-#define LAG_VEC2_H
+# define LAG_VEC2_H
 
-#include "lag_utils.h"
+# include "lag_utils.h"
 
 typedef struct s_lag_vec2 {
 	uint	x;

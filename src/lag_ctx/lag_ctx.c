@@ -7,6 +7,10 @@
 #include <unistd.h>
 
 bool lag_init(void) {
-	printf("\033[2J\033[H");
+	printf(
+			"\033[2J"		// Erase Screen
+			"\033[H"		// Go to home (0,0)	
+			"\033[?25l"		// Cursor masking
+			);
 	return (true);
 }

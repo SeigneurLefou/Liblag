@@ -31,23 +31,36 @@ bool	lag_clear_window(lag_window *win) {
 		return (false);
 	return (true);
 }
+bool lag_render_window(lag_window *win) {
+	size_t	max_size;
+	char	*frame_buf;
+	char	*ptr;
+	if (!win || !win->buf.content)
+		return (false);
 
-bool	lag_render_window(lag_window *win) {
-	lag_buffer	win_buf;
-	lag_pixel	pixel;
+	max_size = (win->buf.width * win->buf.height * 40);
+	frame_buf = malloc(max_size);
+	if (!frame_buf)
+		return (false);
 
-	win_buf = win->buf;
-	printf("\033[2J\033[H");
-	for (uint y = 0; y < win_buf.height; y++) {
-		for (uint x = 0; x < win_buf.width; x++) {
-			pixel = lag_get_buffer(&win_buf, (lag_vec2){x, y});
-			lag_show_pixel(pixel);
+	ptr = frame_buf;
+	ptr += sprintf(ptr, "\033[2J\033[H");
+
+	for (uint y = 0; y < win->buf.height; y++) {
+		for (uint x = 0; x < win->buf.width; x++) {
+			lag_pixel p = lag_get_buffer(&win->buf, (lag_vec2){x, y});
+			ptr += lag_pixel_to_str(ptr, p);
 		}
-		if (y < win_buf.height - 1) {
-			putchar('\n');
+		if (y < win->buf.height - 1) {
+			*ptr++ = '\n';
 		}
 	}
+	*ptr = '\0';
+
+	fputs(frame_buf, stdout);
 	fflush(stdout);
+	free(frame_buf);
+
 	return (true);
 }
 
@@ -91,6 +104,10 @@ bool	lag_autoresize_window(lag_window *win) {
 bool	lag_destroy_window(lag_window *win) {
 	if (!win || !lag_destroy_buffer(&win->buf))
 		return (false);
-	printf("\033[2J\033[H");
+	printf(
+			"\033[2J"
+			"\033[H"
+			"\033[?25h"
+			);
 	return (true);
 }
