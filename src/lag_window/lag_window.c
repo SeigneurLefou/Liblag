@@ -21,7 +21,7 @@ bool	lag_create_window(lag_window *win, lag_window_infos *win_infos) {
 		win->w_ratio = (float)win_infos->width / max_x;
 		win->h_ratio = (float)win_infos->height / max_y;
 	}
-	if (!lag_create_buffer(&win->buf, win_infos->width, win_infos->height))
+	if (!lag_create_buffer(&win->buf, (lag_vec2){win_infos->width, win_infos->height}))
 		return (false);
 	return (true);
 }
@@ -40,7 +40,7 @@ bool	lag_render_window(lag_window *win) {
 	printf("\033[2J\033[H");
 	for (uint y = 0; y < win_buf.height; y++) {
 		for (uint x = 0; x < win_buf.width; x++) {
-			pixel = lag_get_buffer(&win_buf, x, y);
+			pixel = lag_get_buffer(&win_buf, (lag_vec2){x, y});
 			lag_show_pixel(pixel);
 		}
 		if (y < win_buf.height - 1) {
@@ -63,7 +63,7 @@ bool	lag_resize_window(lag_window *win, unsigned int width, unsigned int height)
 	win->infos->width = ((int)width <= 0 || (int)width > max_x || (win->infos->flags & IS_FULLSCREEN)) ? max_x : width;
 	win->infos->height = ((int)height <= 0 || (int)height > max_y || (win->infos->flags & IS_FULLSCREEN)) ? max_y : height;
 
-	if (!lag_destroy_buffer(&win->buf) || !lag_create_buffer(&win->buf, win->infos->width, win->infos->height))
+	if (!lag_destroy_buffer(&win->buf) || !lag_create_buffer(&win->buf, (lag_vec2){win->infos->width, win->infos->height}))
 		return (false);
 	return (true);
 }
@@ -83,7 +83,7 @@ bool	lag_autoresize_window(lag_window *win) {
 	win->infos->width = new_w;
 	win->infos->height = new_h;
 	
-	if (!lag_destroy_buffer(&win->buf) || !lag_create_buffer(&win->buf, win->infos->width, win->infos->height))
+	if (!lag_destroy_buffer(&win->buf) || !lag_create_buffer(&win->buf, (lag_vec2){win->infos->width, win->infos->height}))
 		return (false);
 	return (true);
 }

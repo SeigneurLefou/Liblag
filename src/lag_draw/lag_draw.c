@@ -1,29 +1,30 @@
 #include "lag_draw.h"
 
-bool lag_draw_pixel(lag_buffer *buf, uint x, uint y, lag_pixel pixel) {
-	if (!buf || x >= (uint)buf->width || y >= (uint)buf->height)
+bool lag_draw_pixel(lag_buffer *buf, lag_vec2 point, lag_pixel pixel) {
+	if (!buf || point.x >= (uint)buf->width || point.y >= (uint)buf->height)
 		return (false);
-	return (lag_set_buffer(buf, &pixel, x, y));
+	return (lag_set_buffer(buf, &pixel, (lag_vec2){point.x, point.y}));
 }
 
-bool lag_draw_line(lag_buffer *buf, uint sx, uint sy, uint ex, uint ey, lag_pixel pixel) {
-	if (!buf || sx >= (uint)buf->width || sy >= (uint)buf->height
-		|| ex >= (uint)buf->width || ey >= (uint)buf->height)
+bool lag_draw_line(lag_buffer *buf, lag_vec2 start, lag_vec2 end, lag_pixel pixel) {
+	int e2;
+	if (!buf || start.x >= (uint)buf->width || start.y >= (uint)buf->height
+		|| end.x >= (uint)buf->width || end.y >= (uint)buf->height)
 		return (false);
 
-	int x = sx;
-	int y = sy;
-	int dx = abs((int)ex - x);
-	int dy = -abs((int)ey - y);
-	int step_x = (x < (int)ex) ? 1 : -1;
-	int step_y = (y < (int)ey) ? 1 : -1;
+	int x = start.x;
+	int y = start.y;
+	int dx = abs((int)end.x - x);
+	int dy = -abs((int)end.y - y);
+	int step_x = (x < (int)end.x) ? 1 : -1;
+	int step_y = (y < (int)end.y) ? 1 : -1;
 	int err = dx + dy;
 
 	while (1) {
-		lag_set_buffer(buf, &pixel, x, y);
-		if (x == (int)ex && y == (int)ey)
+		lag_set_buffer(buf, &pixel, (lag_vec2){x, y});
+		if (x == (int)end.x && y == (int)end.y)
 			break;
-		int e2 = 2 * err;
+		e2 = 2 * err;
 		if (e2 >= dy) {
 			err += dy;
 			x += step_x;
@@ -36,28 +37,28 @@ bool lag_draw_line(lag_buffer *buf, uint sx, uint sy, uint ex, uint ey, lag_pixe
 	return (true);
 }
 
-bool lag_draw_rectangle(lag_buffer *buf, uint sx, uint sy, uint ex, uint ey, lag_pixel pixel, lag_draw_enum flags) {
-	if (!buf || sx >= (uint)buf->width || sy >= (uint)buf->height
-		|| ex >= (uint)buf->width || ey >= (uint)buf->height)
+bool lag_draw_rectangle(lag_buffer *buf, lag_vec2 start, lag_vec2 end, lag_pixel pixel, lag_draw_enum flags) {
+	if (!buf || start.x >= (uint)buf->width || start.y >= (uint)buf->height
+		|| end.x >= (uint)buf->width || end.y >= (uint)buf->height)
 		return (false);
 
-	int step_x = (sx < ex) ? 1 : -1;
-	int step_y = (sy < ey) ? 1 : -1;
+	int step_x = (start.x < end.x) ? 1 : -1;
+	int step_y = (start.y < end.y) ? 1 : -1;
 
 	if (flags & FILL) {
-		for (uint y = sy; y != ey + step_y; y += step_y) {
-			for (uint x = sx; x != ex + step_x; x += step_x) {
-				lag_set_buffer(buf, &pixel, x, y);
+		for (uint y = start.y; y != end.y + step_y; y += step_y) {
+			for (uint x = start.x; x != end.x + step_x; x += step_x) {
+				lag_set_buffer(buf, &pixel, (lag_vec2){x, y});
 			}
 		}
 	} else {
-		for (uint x = sx; x != ex + step_x; x += step_x) {
-			lag_set_buffer(buf, &pixel, x, sy);
-			lag_set_buffer(buf, &pixel, x, ey);
+		for (uint x = start.x; x != end.x + step_x; x += step_x) {
+			lag_set_buffer(buf, &pixel, (lag_vec2){x, start.y});
+			lag_set_buffer(buf, &pixel, (lag_vec2){x, end.y});
 		}
-		for (uint y = sy; y != ey + step_y; y += step_y) {
-			lag_set_buffer(buf, &pixel, sx, y);
-			lag_set_buffer(buf, &pixel, ex, y);
+		for (uint y = start.y; y != end.y + step_y; y += step_y) {
+			lag_set_buffer(buf, &pixel, (lag_vec2){start.x, y});
+			lag_set_buffer(buf, &pixel, (lag_vec2){end.x, y});
 		}
 	}
 	return (true);

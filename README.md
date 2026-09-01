@@ -1,70 +1,77 @@
 # LAG (LibAsciiGraphic)
 
+## Description
+Liblag is an ASCII graphic rendering library written in C. 
+
+> **Warning:** This project is currently a Work In Progress (WIP). API breakages may occur.
+
+---
+
+## Roadmap
+
+### 1. Data Structures & Core Types
+- [x] `lag_window` (stores dimensions, ratio, flags, and main window buffer)
+- [x] `lag_vec2` (2D vector coordinates)
+- [x] `lag_color` (RGBA color storage)
+- [x] `lag_pixel` (character, fg/bg colors, transparency flags)
+- [x] `lag_buffer` (pixel grid storage and allocation)
+- [ ] `lag_path` (chain of 2D points)
+- [ ] `lag_string` (styled text buffer wrapper)
+
+### 2. Drawing & Rasterization Primitives
+- [x] Pixel (`lag_draw_pixel`)
+- [x] Line (`lag_draw_line`)
+- [x] Rectangle (`lag_draw_rectangle` with `FILL` flag)
+- [ ] Circle & Ellipse (Outline & Fill modes)
+- [ ] Arbitrary Polygon (Scanline rasterization algorithm based on an idea by [crabneb](https://github.com/crabneb))
+- [ ] Text rendering (`lag_draw_string`)
+
+### 3. Rendering Pipeline & Engine Systems
+- [x] Responsive auto-resizing with terminal ratio preservation
+- [ ] Differential rendering / single-string screen refresh (to reduce flicker)
+- [ ] Event polling system (`lag_poll_event`)
+- [ ] Detect events with flags like KEY UP or DOWN, MOUSE UP or DOWN, or SYSTEM_EVENT (only few idea)
+- [ ] Framerate control and time tracking (`lag_time`)
+
+---
+
 ## Installation
 
-### For test
-If you just want to execute the test given in the repo you need to clone it where you want and move in.
+### Running Tests
+To compile and execute the test binary:
 
-Now execute the following command to compile the library
-```
+```bash
 make re
-```
-Now move in the test folder
-```
 cd test
-```
-And compile the main of test you want to execute with the following command
-```
 gcc main.c -L../lib -lncurses -lm -llag -o game
-```
-And now execute the binary (game in this exemple) with the LD_LIBRARY_PATH define to ../lib with
-```
 export LD_LIBRARY_PATH=../lib
 ./game
+
 ```
 
-### For use in your project
-Add a [submodule](https://git-scm.com/book/en/v2/Git-Tools-Submodules) or a clone of the liblag repo in a lib folder, the lib folder is not required but very recommanded for clean usage
-In the root of your project (where your .git folder is) execute this
-For submodule (the best choice) :
-```
+### Adding to Your Project
+
+#### Option A: Submodule (Recommended)
+
+```bash
 mkdir -p lib
 cd lib
-git submodule add https://codeberg.org/SeigneurLefou/liblag.git
+git submodule add [https://codeberg.org/SeigneurLefou/liblag.git](https://codeberg.org/SeigneurLefou/liblag.git)
 cd ..
+
 ```
-And now you need to clone your repo with the flag `--recurse-submodules`
 
-For clone (more basic but you can add a clone rule in your Makefile) :
+#### Option B: Standalone Clone
+
+```bash
+git clone [https://codeberg.org/SeigneurLefou/liblag.git](https://codeberg.org/SeigneurLefou/liblag.git) lib/liblag
+
 ```
-git clone https://codeberg.org/SeigneurLefou/liblag.git lib/liblag
-```
-Whatever your choice may be you need to compile the library and for this I recommande to take a look to the file exemple.make who detailled the rule needed to add to yours
 
-But if you hate Makefile and use other things or *thrill* by hand here is the command list to use in the root of your project
-*utils.c represent a secondary file use by your main and main.c is the main*
-```
-make -C lib/liblag/ re
-export LDFLAGS=""
-gcc -Ilib/liblag/includes -Llib/liblag/lib -llag -lm -lncurses -c utils.c -o utils.o
-gcc main.c -Ilib/liblag/includes -Llib/liblag/lib -llag -lm -lncurses -o game
-export LD_LIBRARY_PATH=lib/liblag/lib
-./game
-```
-This is just an exemple and I really recommand you to have a Makefile for compile
+Refer to `exemple.make` for recommended Makefile integration rules.
 
-## How it's working ? (in my mind)
+---
 
-There's a contexte but no type for it because ncurses.
+## Resources & References
 
-There's lag_window who is an alias for the WINDOW type and can be initiate and destruct. Maybe add a responsive ratio like take the dimension of the ncurses window and dimension of the terminal's window and calculate a ratio. Then apply this ratio when redim
-
-Also a lag_pixel type who take multiple style flags, a pair of lag_color and a char for the cell colouring.
-
-Also a lag_buffer who is a buffer of lag_pixel who can be put in another buffer with clipping.
-
-There is a pollevent system for taking input properly.
-
-Draw functions on lag_buffer for pixel, line, rect, ellipsis or triangle. Can be full or not. Put function are the same but directly on the window.
-
-Can blit an buffer on another or put one on the window. Also do a transformation of it with also clipping when overlapping.
+* [Bresenham's Line Algorithm](https://en.wikipedia.org/wiki/Bresenham's_line_algorithm)

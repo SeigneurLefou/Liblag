@@ -28,7 +28,7 @@ int main(void)
 
 	lag_create_window(&win, &win_infos);
 	// TODO create a function who create a buffer in the same size of the window
-	lag_create_buffer(&buf, win.buf.width, win.buf.height);
+	lag_create_buffer(&buf, (lag_vec2){win.buf.width, win.buf.height});
 	width = 0;
 
 	while (1) {
@@ -37,13 +37,13 @@ int main(void)
 		lag_clear_window(&win);
 		lag_clear_buffer(&buf);
 		
-		lag_draw_pixel(&buf, width, 30, px_hash);
-		lag_draw_line(&buf, 4, 3, 30, 20, px_star);
-		lag_draw_line(&buf, 20, 10, 80, 2, px_pipe);
-		lag_draw_rectangle(&buf, 0, 0, 40, 20, px_star, DEFAULT);
-		lag_draw_rectangle(&buf, 80, 4, 90, 20, px_pipe, FILL);
+		lag_draw_pixel(&buf, (lag_vec2){width, 30}, px_hash);
+		lag_draw_line(&buf, (lag_vec2){4, 3}, (lag_vec2){30, 20}, px_star);
+		lag_draw_line(&buf, (lag_vec2){20, 10}, (lag_vec2){80, 2}, px_pipe);
+		lag_draw_rectangle(&buf, (lag_vec2){0, 0}, (lag_vec2){40, 20}, px_star, DEFAULT);
+		lag_draw_rectangle(&buf, (lag_vec2){80, 4}, (lag_vec2){90, 20}, px_pipe, FILL);
 		
-		lag_blit_buffer(&buf, &win.buf, 0, 0);
+		lag_blit_buffer(&buf, &win.buf, (lag_vec2){0, 0});
 		// TODO add a lag_blit_window to pass only the &win
 		lag_render_window(&win);
 
