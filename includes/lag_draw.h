@@ -13,9 +13,10 @@ typedef enum e_lag_draw_enum {
 	FILL		= 1,
 } lag_draw_enum;
 
-bool lag_draw_pixel(lag_buffer *buf, lag_vec2 point, lag_pixel pixel);
-bool lag_draw_line(lag_buffer *buf, lag_vec2 start, lag_vec2 end, lag_pixel pixel);
-bool lag_draw_line_thickness(lag_buffer *buf, lag_vec2 start, lag_vec2 end, lag_pixel pixel, uint thickness);
-bool lag_draw_rectangle(lag_buffer *buf, lag_vec2 start, lag_vec2 end, lag_pixel pixel, lag_draw_enum flags);
+bool	lag_draw_pixel(lag_buffer *buf, lag_vec2 point, lag_pixel pixel);
+bool	lag_draw_line(lag_buffer *buf, lag_vec2 start, lag_vec2 end, lag_pixel pixel);
+bool	lag_draw_line_thickness(lag_buffer *buf, lag_vec2 start, lag_vec2 end, lag_pixel pixel, uint thickness);
+bool	lag_draw_rectangle(lag_buffer *buf, lag_vec2 start, lag_vec2 end, lag_pixel pixel, lag_draw_enum flags);
+bool	lag_draw_circle(lag_buffer *buf, lag_vec2 pos, uint radius, lag_pixel pixel, lag_draw_enum flags);
 
 #endif
