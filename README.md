@@ -56,7 +56,7 @@ export LD_LIBRARY_PATH=../lib
 ```bash
 mkdir -p lib
 cd lib
-git submodule add [https://codeberg.org/SeigneurLefou/liblag.git](https://codeberg.org/SeigneurLefou/liblag.git)
+git submodule add https://codeberg.org/SeigneurLefou/liblag.git
 cd ..
 
 ```
@@ -64,7 +64,7 @@ cd ..
 #### Option B: Standalone Clone
 
 ```bash
-git clone [https://codeberg.org/SeigneurLefou/liblag.git](https://codeberg.org/SeigneurLefou/liblag.git) lib/liblag
+git clone https://codeberg.org/SeigneurLefou/liblag.git lib/liblag
 
 ```
 
