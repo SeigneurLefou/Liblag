@@ -22,13 +22,14 @@ Liblag is an ASCII graphic rendering library written in C.
 - [x] Pixel (`lag_draw_pixel`)
 - [x] Line (`lag_draw_line`)
 - [x] Rectangle (`lag_draw_rectangle` with `FILL` flag)
-- [ ] Circle & Ellipse (Outline & Fill modes)
+- [x] Circle (Outline & Fill modes)
+- [ ] Ellipse (Outline & Fill modes)
 - [ ] Arbitrary Polygon (Scanline rasterization algorithm based on an idea by [crabneb](https://github.com/crabneb))
 - [ ] Text rendering (`lag_draw_string`)
 
 ### 3. Rendering Pipeline & Engine Systems
 - [x] Responsive auto-resizing with terminal ratio preservation
-- [ ] Differential rendering / single-string screen refresh (to reduce flicker)
+- [x] Differential rendering / single-string screen refresh (to reduce flicker)
 - [ ] Event polling system (`lag_poll_event`)
 - [ ] Detect events with flags like KEY UP or DOWN, MOUSE UP or DOWN, or SYSTEM_EVENT (only few idea)
 - [ ] Framerate control and time tracking (`lag_time`)

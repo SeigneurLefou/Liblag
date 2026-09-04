@@ -38,13 +38,13 @@ bool lag_render_window(lag_window *win) {
 	if (!win || !win->buf.content)
 		return (false);
 
-	max_size = (win->buf.width * win->buf.height * 40);
+	max_size = (win->buf.width * win->buf.height * 50);
 	frame_buf = malloc(max_size);
 	if (!frame_buf)
 		return (false);
 
 	ptr = frame_buf;
-	ptr += sprintf(ptr, "\033[2J\033[H");
+	ptr += sprintf(ptr, "\033[H");
 
 	for (uint y = 0; y < win->buf.height; y++) {
 		for (uint x = 0; x < win->buf.width; x++) {
