@@ -35,6 +35,7 @@ bool lag_render_window(lag_window *win) {
 	size_t	max_size;
 	char	*frame_buf;
 	char	*ptr;
+	int		size;
 	if (!win || !win->buf.content)
 		return (false);
 
@@ -43,19 +44,26 @@ bool lag_render_window(lag_window *win) {
 	if (!frame_buf)
 		return (false);
 
-	ptr = frame_buf;
-	ptr += sprintf(ptr, "\033[H");
-
+	size = strlen("\033[H");
 	for (uint y = 0; y < win->buf.height; y++) {
 		for (uint x = 0; x < win->buf.width; x++) {
-			lag_pixel p = lag_get_buffer(&win->buf, (lag_vec2){x, y});
-			ptr += lag_pixel_to_str(ptr, p);
+			size += lag_get_pixel_size()
 		}
 		if (y < win->buf.height - 1) {
-			*ptr++ = '\n';
+			size += 1;
 		}
 	}
-	*ptr = '\0';
+	strcat(frame_buf, "\033[H");
+	for (uint y = 0; y < win->buf.height; y++) {
+		for (uint x = 0; x < win->buf.width; x++) {
+			size += lag_get_pixel_size()
+			lag_pixel p = lag_get_buffer(&win->buf, (lag_vec2){x, y});
+			strcat(ptr, lag_pixel_to_str(p));
+		}
+		if (y < win->buf.height - 1) {
+			strcat(ptr, "\n");
+		}
+	}
 
 	fputs(frame_buf, stdout);
 	fflush(stdout);
