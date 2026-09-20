@@ -7,6 +7,6 @@
 typedef unsigned int	uint;
 typedef unsigned char	uchar;
 
-void*	memdup(const void* mem, size_t size);
+void	*memdup(const void* mem, size_t size);
 
 #endif
