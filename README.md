@@ -44,7 +44,7 @@ To compile and execute the test binary:
 ```bash
 make re
 cd test
-gcc main.c -L../lib -lncurses -lm -llag -o game
+gcc main.c -L../lib -lm -llag -o game
 export LD_LIBRARY_PATH=../lib
 ./game
 

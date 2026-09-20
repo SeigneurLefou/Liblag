@@ -18,7 +18,7 @@ lag_pixel lag_get_buffer(lag_buffer *buf, lag_vec2 pos) {
 }
 
 bool lag_set_buffer(lag_buffer *buf, lag_pixel *pixel, lag_vec2 pos) {
-	if (!buf || !buf->content || pos.x >= (uint)buf->width || pos.y >= (uint)buf->height)
+	if (!buf || !buf->content || pos.x < 0 || pos.x >= buf->width || pos.y < 0 || pos.y >= buf->height)
 		return (false);
 	buf->content[pos.y * buf->width + pos.x] = *pixel;
 	return (true);

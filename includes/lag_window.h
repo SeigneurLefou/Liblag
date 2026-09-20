@@ -3,10 +3,14 @@
 
 # include <sys/ioctl.h>
 # include <strings.h>
+# include <stdlib.h>
+# include <string.h>
 # include <unistd.h>
 # include "lag_utils.h"
 # include "lag_buffer.h"
 # include "lag_pixel.h"
+
+# define LAG_MAX_PIXEL_BYTES 64
 
 typedef enum e_lag_window_flags {
 	IS_FULLSCREEN = 1,
@@ -23,12 +27,16 @@ typedef struct s_lag_window_infos {
 
 typedef struct s_lag_window {
 	lag_buffer			buf;
+	char				*frame_buffer;
+	size_t				frame_buffer_capacity;
 	lag_window_infos	*infos;
 	float				w_ratio;
 	float				h_ratio;
-}	lag_window;
+}   lag_window;
 
 bool	lag_create_window(lag_window *win, lag_window_infos *win_infos);
+bool	lag_create_window_buffer(lag_buffer *buf, const lag_window *win);
+bool	lag_blit_window(lag_window *win, lag_buffer *src, lag_vec2 start);
 bool	lag_clear_window(lag_window *win);
 bool	lag_destroy_window(lag_window *win);
 bool	lag_render_window(lag_window *win);

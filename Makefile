@@ -12,7 +12,7 @@ SRC			=
 
 INCLUDES	= includes
 
-LFLAGS		= -lncurses -lm
+LFLAGS		= -lm
 
 include src/lag_ctx/lag_ctx.make
 include src/lag_draw/lag_draw.make

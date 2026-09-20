@@ -19,12 +19,13 @@ typedef struct s_lag_pixel {
 	lag_color	bg;
 	bool		has_fg;
 	bool		has_bg;
+	char		*content;
 }	lag_pixel;
 
-bool	lag_init_color(lag_color *color, uchar r, uchar g, uchar b);
-bool	lag_init_pixel(lag_pixel *pixel, char *c, lag_color *bg, lag_color *fg);
-char	*lag_pixel_to_str(lag_pixel pixel);
-int		lag_get_pixel_size(lag_pixel pixel);
+bool	lag_set_color(lag_color *color, uchar r, uchar g, uchar b);
+bool	lag_set_pixel(lag_pixel *pixel, char *c, lag_color *bg, lag_color *fg);
+char	*lag_pixel_to_str(const lag_pixel *pixel);
+int		lag_get_pixel_size(const lag_pixel *pixel);
 bool	lag_show_pixel(lag_pixel pixel);
 
 #endif

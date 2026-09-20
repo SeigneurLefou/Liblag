@@ -1,6 +1,6 @@
 #include "lag_pixel.h"
 
-bool lag_init_color(lag_color *color, uchar r, uchar g, uchar b) {
+bool lag_set_color(lag_color *color, uchar r, uchar g, uchar b) {
 	if (!color)
 		return (false);
 	color->r = r;
@@ -10,7 +10,7 @@ bool lag_init_color(lag_color *color, uchar r, uchar g, uchar b) {
 	return (true);
 }
 
-bool	lag_init_pixel(lag_pixel *pixel, char *c, lag_color *bg, lag_color *fg) {
+bool	lag_set_pixel(lag_pixel *pixel, char *c, lag_color *bg, lag_color *fg) {
 	if (!pixel)
 		return (false);
 	pixel->ch = c;
@@ -26,72 +26,48 @@ bool	lag_init_pixel(lag_pixel *pixel, char *c, lag_color *bg, lag_color *fg) {
 	} else {
 		pixel->has_fg = false;
 	}
+	pixel->content = lag_pixel_to_str(pixel);
 	return (true);
 }
 
-int	lag_get_pixel_size(lag_pixel pixel) {
-	int		size = 0;
-	char	*c = (pixel.ch) ? pixel.ch : " ";
+int lag_get_pixel_size(const lag_pixel *pixel) {
+    if (!pixel)
+        return 0;
 
-	if (pixel.has_bg) {
-		size += strlen("\033[48;2;");
-		size += strlen(sprintf("%d", pixel.bg.r));
-		size += strlen(";");
-		size += strlen(sprintf("%d", pixel.bg.g));
-		size += strlen(";");
-		size += strlen(sprintf("%d", pixel.bg.b));
-		size += strlen("m");
-	}
-	if (pixel.has_fg) {
-		size += strlen("\033[48;2;");
-		size += strlen(sprintf("%d", pixel.fg.r));
-		size += strlen(";");
-		size += strlen(sprintf("%d", pixel.fg.g));
-		size += strlen(";");
-		size += strlen(sprintf("%d", pixel.fg.b));
-		size += strlen("m");
-	}
-	size += strlen(c);
-	size += strlen("\033[39;49m");
-	return (size);
+    int size = 0;
+    const char *c = (pixel->ch) ? pixel->ch : " ";
+
+    if (pixel->has_bg)
+        size += snprintf(NULL, 0, "\033[48;2;%u;%u;%um", pixel->bg.r, pixel->bg.g, pixel->bg.b);
+    if (pixel->has_fg)
+        size += snprintf(NULL, 0, "\033[38;2;%u;%u;%um", pixel->fg.r, pixel->fg.g, pixel->fg.b);
+
+    size += strlen(c);
+    size += strlen("\033[39;49m");
+    return size;
 }
 
-char	*lag_pixel_to_str(lag_pixel pixel) {
-	char	*res = malloc(lag_get_pixel_size(pixel))
-	char	*c = (pixel.ch) ? pixel.ch : " ";
+char *lag_pixel_to_str(const lag_pixel *pixel) {
+    if (!pixel)
+        return NULL;
 
-	if (pixel.has_bg) {
-		strcat(res, "\033[48;2;");
-		strcat(res, sprintf("%d", pixel.bg.r));
-		strcat(res, ";");
-		strcat(res, sprintf("%d", pixel.bg.g));
-		strcat(res, ";");
-		strcat(res, sprintf("%d", pixel.bg.b));
-		strcat(res, "m");
-	}
-	if (pixel.has_fg) {
-		strcat(res, "\033[48;2;");
-		strcat(res, sprintf("%d", pixel.fg.r));
-		strcat(res, ";");
-		strcat(res, sprintf("%d", pixel.fg.g));
-		strcat(res, ";");
-		strcat(res, sprintf("%d", pixel.fg.b));
-		strcat(res, "m");
-	}
-	strcat(res, c);
-	strcat(res, "\033[39;49m");
-	return (res);
-}
+    int size = lag_get_pixel_size(pixel);
+    char *res = malloc(size + 1);
+    if (!res)
+        return NULL;
 
-bool	lag_show_pixel(lag_pixel pixel) {
-	char	*c;
-	if (pixel.has_bg) {
-		printf("\033[48;2;%d;%d;%dm", pixel.bg.r, pixel.bg.g, pixel.bg.b);
-	}
-	if (pixel.has_fg) {
-		printf("\033[38;2;%d;%d;%dm", pixel.fg.r, pixel.fg.g, pixel.fg.b);
-	}
-	c = (pixel.ch) ? pixel.ch : " ";
-	printf("%s\033[39;49m", c);
-	return (true);
+    int offset = 0;
+    const char *c = (pixel->ch) ? pixel->ch : " ";
+
+    if (pixel->has_bg) {
+        offset += sprintf(res + offset, "\033[48;2;%u;%u;%um",
+                          pixel->bg.r, pixel->bg.g, pixel->bg.b);
+    }
+    if (pixel->has_fg) {
+        offset += sprintf(res + offset, "\033[38;2;%u;%u;%um",
+                          pixel->fg.r, pixel->fg.g, pixel->fg.b);
+    }
+
+    sprintf(res + offset, "%s\033[39;49m", c);
+    return res;
 }
