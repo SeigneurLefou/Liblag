@@ -74,7 +74,7 @@ bool lag_render_window(lag_window *win) {
 			*ptr++ = '\n';
 		}
 	}
-	*ptr++ = '\0';
+	*ptr = '\0';
 
 	write(STDOUT_FILENO, win->frame_buffer, ptr - win->frame_buffer);
 	return (true);

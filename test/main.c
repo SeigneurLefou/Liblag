@@ -45,7 +45,6 @@ int main(void)
 		lag_draw_circle(&buf, (lag_vec2){10, 10}, 5, &px_hash, DEFAULT);
 		lag_draw_circle(&buf, (lag_vec2){20, 20}, 5, &px_hash, FILL);
 		
-		lag_blit_buffer(&buf, &win.buf, (lag_vec2){0, 0});
 		lag_blit_window(&win, &buf, (lag_vec2){0, 0});
 		lag_render_window(&win);
 
@@ -55,5 +54,8 @@ int main(void)
 	
 	lag_destroy_buffer(&buf);
 	lag_destroy_window(&win);
+	free(px_hash.content);
+	free(px_star.content);
+	free(px_pipe.content);
 	return (0);
 }
