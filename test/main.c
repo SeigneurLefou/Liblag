@@ -40,10 +40,11 @@ int main(void)
 		lag_draw_pixel(&buf, (lag_vec2){width, 30}, &px_hash);
 		lag_draw_line(&buf, (lag_vec2){4, 3}, (lag_vec2){30, 20}, &px_star);
 		lag_draw_line_thickness(&buf, (lag_vec2){20, 10}, (lag_vec2){80, 2}, &px_pipe, 1);
-		lag_draw_rectangle(&buf, (lag_vec2){0, 0}, (lag_vec2){40, 20}, &px_star, DEFAULT);
+		lag_draw_rectangle(&buf, (lag_vec2){1, 0}, (lag_vec2){40, 20}, &px_star, DEFAULT);
 		lag_draw_rectangle(&buf, (lag_vec2){80, 4}, (lag_vec2){90, 20}, &px_pipe, FILL);
 		lag_draw_circle(&buf, (lag_vec2){10, 10}, 5, &px_hash, DEFAULT);
 		lag_draw_circle(&buf, (lag_vec2){20, 20}, 5, &px_hash, FILL);
+		lag_draw_text(&buf, (lag_vec2){0, 0}, "Hello world", &a, &b);
 		
 		lag_blit_window(&win, &buf, (lag_vec2){0, 0});
 		lag_render_window(&win);

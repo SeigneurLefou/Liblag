@@ -57,8 +57,8 @@ bool lag_render_window(lag_window *win) {
 
 	char *ptr = win->frame_buffer;
 
-	memcpy(ptr, "\033[H", 3);
-	ptr += 3;
+	memcpy(ptr, "\033[H\033[?7l", 8);
+	ptr += 8;
 
 	for (uint y = 0; y < win->buf.height; y++) {
 		for (uint x = 0; x < win->buf.width; x++) {
@@ -133,7 +133,7 @@ bool lag_destroy_window(lag_window *win) {
 		win->frame_buffer = NULL;
 	}
 
-	write(STDOUT_FILENO, "\033[2J\033[H\033[?25h", 11);
+	write(STDOUT_FILENO, "\033[2J\033[H\033[?25h\033[?7h", 16);
 	return (true);
 }
 
