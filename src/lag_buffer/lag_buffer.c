@@ -12,7 +12,7 @@ bool lag_create_buffer(lag_buffer *buf, lag_vec2 dim) {
 lag_pixel lag_get_buffer(lag_buffer *buf, lag_vec2 pos) {
 	lag_pixel pixel = {0};
 
-	if (!buf || !buf->content || pos.x >= (uint)buf->width || pos.y >= (uint)buf->height)
+	if (!buf || !buf->content || pos.x >= buf->width || pos.y >= buf->height)
 		return (pixel);
 	return (buf->content[pos.y * buf->width + pos.x]);
 }
@@ -51,13 +51,13 @@ bool lag_clear_buffer(lag_buffer *buf) {
 
 bool lag_blit_buffer(lag_buffer *src, lag_buffer *dest, lag_vec2 start) {
 	if (!src || !src->content || !dest || !dest->content
-		|| start.x >= (uint)dest->width || start.y >= (uint)dest->height)
+		|| start.x >= dest->width || start.y >= dest->height)
 		return (false);
 
-	for (uint y = 0; y < (uint)src->height && (start.y + y) < (uint)dest->height; y++) {
-		for (uint x = 0; x < (uint)src->width && (start.x + x) < (uint)dest->width; x++) {
+	for (int y = 0; y < src->height && (start.y + y) < dest->height; y++) {
+		for (int x = 0; x < src->width && (start.x + x) < dest->width; x++) {
 			lag_pixel p = src->content[y * src->width + x];
-			if (p.ch != 0) {
+			if (p.ch[0] != 0) {
 				lag_set_buffer(dest, &p, (lag_vec2){start.x + x, start.y + y});
 			}
 		}

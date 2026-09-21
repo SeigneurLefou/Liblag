@@ -1,0 +1,16 @@
+==29673== Memcheck, a memory error detector
+==29673== Copyright (C) 2002-2026, and GNU GPL'd, by Julian Seward et al.
+==29673== Using Valgrind-3.27.1 and LibVEX; rerun with -h for copyright info
+==29673== Command: ./game
+==29673== 
+==29673== 
+==29673== FILE DESCRIPTORS: 3 open (3 inherited) at exit.
+==29673== 
+==29673== HEAP SUMMARY:
+==29673==     in use at exit: 0 bytes in 0 blocks
+==29673==   total heap usage: 3 allocs, 3 frees, 595,102 bytes allocated
+==29673== 
+==29673== All heap blocks were freed -- no leaks are possible
+==29673== 
+==29673== For lists of detected and suppressed errors, rerun with: -s
+==29673== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

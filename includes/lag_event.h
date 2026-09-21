@@ -6,16 +6,39 @@
 # include <stddef.h>
 
 typedef enum e_event_type {
-	EVENT_NONE = 0,
-	EVENT_KEY_PRESS,
-	EVENT_RESIZE,
-	EVENT_QUIT
-} lag_event_type;
+	LAG_KEYDOWN,
+	LAG_KEYUP,
+	LAG_MOUSEDOWN,
+	LAG_MOUSEUP,
+	LAG_MOUSEWHEEL,
+	LAG_WINDOW_EVENT,
+	LAG_NONE_EVENT
+}	lag_event_type;
+
+typedef enum e_event_window {
+	LAG_WIN_QUIT,
+	LAG_WIN_RESIZE
+}	lag_event_window;
+
+typedef struct {
+	int			scancode;
+}	lag_keyboard_event;
+
+typedef struct {
+	int			scancode;
+}	lag_mouse_event;
+
+typedef struct {
+	lag_event_window	type;
+}	lag_window_event;
 
 typedef struct s_lag_event {
 	lag_event_type	type;
-	int key;
-	// TODO use a union for event for use less memory
+	union {
+		lag_window_event	window;
+		lag_keyboard_event	key;
+		lag_mouse_event		mouse;
+	};
 } lag_event;
 
 extern volatile sig_atomic_t	g_lag_running;

@@ -1,7 +1,7 @@
 #include "lag_draw.h"
 
-bool lag_draw_circle(lag_buffer *buf, lag_vec2 pos, uint radius, lag_pixel *pixel, lag_draw_enum flags) {
-    if (!buf) return false;
+bool lag_draw_circle(lag_buffer *buf, lag_vec2 pos, int radius, lag_pixel *pixel, lag_draw_enum flags) {
+    if (!buf || radius < 0) return false;
 
     int x = radius;
     int y = 0;

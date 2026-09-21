@@ -23,9 +23,9 @@ bool lag_draw_line(lag_buffer *buf, lag_vec2 start, lag_vec2 end, lag_pixel *pix
 	return true;
 }
 
-bool lag_draw_line_thickness(lag_buffer *buf, lag_vec2 start, lag_vec2 end, lag_pixel *pixel, uint thickness) {
+bool lag_draw_line_thickness(lag_buffer *buf, lag_vec2 start, lag_vec2 end, lag_pixel *pixel, int thickness) {
 	int e2;
-	if (!buf)
+	if (!buf || thickness < 0)
 		return (false);
 
 	int x = start.x;

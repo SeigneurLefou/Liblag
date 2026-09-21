@@ -31,7 +31,7 @@ bool lag_create_window(lag_window *win, lag_window_infos *win_infos) {
 		return (false);
 
 	win->frame_buffer_capacity = lag_calc_frame_buffer_size(win_infos->width, win_infos->height);
-	win->frame_buffer = malloc(win->frame_buffer_capacity);
+	win->frame_buffer = malloc(win->frame_buffer_capacity * sizeof(char));
 	if (!win->frame_buffer) {
 		lag_destroy_buffer(&win->buf);
 		return (false);
@@ -53,36 +53,66 @@ bool lag_clear_window(lag_window *win) {
 
 bool lag_render_window(lag_window *win) {
 	if (!win || !win->buf.content || !win->frame_buffer)
-		return (false);
+		return false;
 
 	char *ptr = win->frame_buffer;
-
+	
 	memcpy(ptr, "\033[H\033[?7l", 8);
 	ptr += 8;
 
-	for (uint y = 0; y < win->buf.height; y++) {
-		for (uint x = 0; x < win->buf.width; x++) {
-			lag_pixel p = lag_get_buffer(&win->buf, (lag_vec2){x, y});
-			if (p.content) {
-				strcpy(ptr, p.content);
-				ptr += strlen(p.content);
-			} else {
-				*ptr++ = ' ';
+	lag_color last_fg = {0};
+	lag_color last_bg = {0};
+	bool has_active_fg = false;
+	bool has_active_bg = false;
+
+	for (int y = 0; y < win->buf.height; y++) {
+		for (int x = 0; x < win->buf.width; x++) {
+			lag_pixel *p = &win->buf.content[y * win->buf.width + x];
+
+			if (p->has_bg) {
+				if (!has_active_bg || memcmp(&p->bg, &last_bg, sizeof(lag_color)) != 0) {
+					ptr += sprintf(ptr, "\033[48;2;%u;%u;%um", p->bg.r, p->bg.g, p->bg.b);
+					last_bg = p->bg;
+					has_active_bg = true;
+				}
+			} else if (has_active_bg) {
+				memcpy(ptr, "\033[49m", 5);
+				ptr += 5;
+				has_active_bg = false;
 			}
+
+			if (p->has_fg) {
+				if (!has_active_fg || memcmp(&p->fg, &last_fg, sizeof(lag_color)) != 0) {
+					ptr += sprintf(ptr, "\033[38;2;%u;%u;%um", p->fg.r, p->fg.g, p->fg.b);
+					last_fg = p->fg;
+					has_active_fg = true;
+				}
+			} else if (has_active_fg) {
+				memcpy(ptr, "\033[39m", 5);
+				ptr += 5;
+				has_active_fg = false;
+			}
+
+			const char *c = (p->ch[0] != '\0') ? p->ch : " ";
+			size_t len = strlen(c);
+			memcpy(ptr, c, len);
+			ptr += len;
 		}
 		if (y < win->buf.height - 1) {
 			*ptr++ = '\n';
 		}
 	}
-	*ptr = '\0';
+
+	memcpy(ptr, "\033[0m", 4);
+	ptr += 4;
 
 	write(STDOUT_FILENO, win->frame_buffer, ptr - win->frame_buffer);
-	return (true);
+	return true;
 }
 
-bool lag_resize_window(lag_window *win, unsigned int width, unsigned int height) {
+bool lag_resize_window(lag_window *win, uint width, uint height) {
 	struct winsize ws;
-	int max_x, max_y;
+	uint max_x, max_y;
 
 	if (!win || !(win->infos->flags & IS_RESIZABLE) || ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == -1)
 		return (false);
@@ -90,8 +120,8 @@ bool lag_resize_window(lag_window *win, unsigned int width, unsigned int height)
 	max_x = ws.ws_col;
 	max_y = ws.ws_row;
 
-	win->infos->width = ((int)width <= 0 || (int)width > max_x || (win->infos->flags & IS_FULLSCREEN)) ? max_x : width;
-	win->infos->height = ((int)height <= 0 || (int)height > max_y || (win->infos->flags & IS_FULLSCREEN)) ? max_y : height;
+	win->infos->width = (width <= 0 || width > max_x || (win->infos->flags & IS_FULLSCREEN)) ? max_x : width;
+	win->infos->height = (height <= 0 || height > max_y || (win->infos->flags & IS_FULLSCREEN)) ? max_y : height;
 
 	if (!lag_destroy_buffer(&win->buf) || !lag_create_buffer(&win->buf, (lag_vec2){win->infos->width, win->infos->height}))
 		return (false);

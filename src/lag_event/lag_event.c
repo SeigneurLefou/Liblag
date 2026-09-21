@@ -29,15 +29,17 @@ bool lag_poll_event(lag_event *event) {
 	if (!event) return false;
 
 	if (!g_lag_running) {
-		event->type = EVENT_QUIT;
+		event->type = LAG_WINDOW_EVENT;
+		event->window.type = LAG_WIN_QUIT;
 		return true;
 	}
 	if (g_lag_resized) {
 		g_lag_resized = 0;
-		event->type = EVENT_RESIZE;
+		event->window.type = LAG_WIN_RESIZE;
+		event->type = LAG_WINDOW_EVENT;
 		return true;
 	}
 
-	event->type = EVENT_NONE;
+	event->type = LAG_NONE_EVENT;
 	return false;
 }

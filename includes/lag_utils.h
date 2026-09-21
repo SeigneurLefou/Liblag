@@ -4,6 +4,8 @@
 # include <stdlib.h>
 # include <string.h>
 
+# define LAG_MAX_PIXEL_BYTES 64
+
 typedef unsigned int	uint;
 typedef unsigned char	uchar;
 

@@ -10,24 +10,25 @@ bool lag_set_color(lag_color *color, uchar r, uchar g, uchar b) {
 	return (true);
 }
 
-bool	lag_set_pixel(lag_pixel *pixel, char *c, lag_color *bg, lag_color *fg) {
+bool lag_set_pixel(lag_pixel *pixel, const char *c, lag_color *fg, lag_color *bg) {
 	if (!pixel)
-		return (false);
-	pixel->ch = c;
-	if (bg) {
-		pixel->bg = *bg;
-		pixel->has_bg = true;
+		return false;
+	memset(pixel, 0, sizeof(lag_pixel));
+	if (c && *c) {
+		strncpy(pixel->ch, c, sizeof(pixel->ch) - 1);
 	} else {
-		pixel->has_bg = false;
+		pixel->ch[0] = ' ';
+		pixel->ch[1] = '\0';
 	}
 	if (fg) {
 		pixel->fg = *fg;
 		pixel->has_fg = true;
-	} else {
-		pixel->has_fg = false;
 	}
-	pixel->content = lag_pixel_to_str(pixel);
-	return (true);
+	if (bg) {
+		pixel->bg = *bg;
+		pixel->has_bg = true;
+	}
+	return true;
 }
 
 int lag_get_pixel_size(const lag_pixel *pixel) {
@@ -35,7 +36,7 @@ int lag_get_pixel_size(const lag_pixel *pixel) {
 		return 0;
 
 	int size = 0;
-	const char *c = (pixel->ch) ? pixel->ch : " ";
+	const char *c = (pixel->ch[0]) ? pixel->ch : " ";
 
 	if (pixel->has_bg)
 		size += snprintf(NULL, 0, "\033[48;2;%u;%u;%um", pixel->bg.r, pixel->bg.g, pixel->bg.b);
@@ -57,7 +58,7 @@ char *lag_pixel_to_str(const lag_pixel *pixel) {
 		return NULL;
 
 	int offset = 0;
-	const char *c = (pixel->ch) ? pixel->ch : " ";
+	const char *c = (pixel->ch[0]) ? pixel->ch : " ";
 
 	if (pixel->has_bg) {
 		offset += sprintf(res + offset, "\033[48;2;%u;%u;%um",

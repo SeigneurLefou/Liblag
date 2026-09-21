@@ -10,8 +10,6 @@
 # include "lag_buffer.h"
 # include "lag_pixel.h"
 
-# define LAG_MAX_PIXEL_BYTES 64
-
 typedef enum e_lag_window_flags {
 	IS_FULLSCREEN = 1,
 	IS_RESIZABLE  = 2
