@@ -12,8 +12,6 @@ SRC			=
 
 INCLUDES	= includes
 
-LFLAGS		= -lm
-
 include src/lag_ctx/lag_ctx.make
 include src/lag_draw/lag_draw.make
 include src/lag_buffer/lag_buffer.make

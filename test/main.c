@@ -12,7 +12,9 @@ int main(void)
 	lag_pixel			px_hash;
     lag_pixel			px_star;
     lag_pixel			px_pipe;
+	lag_event			event;
 
+	if (!lag_init_signals()) return false;
 	lag_set_color(&a, 200, 100, 50);
 	lag_set_color(&b, 50, 100, 200);
 
@@ -32,7 +34,19 @@ int main(void)
 	width = 0;
 
 	while (1) {
-		lag_autoresize_window(&win);
+
+		lag_poll_event(&event);
+		if (event.type == EVENT_QUIT) {
+			lag_destroy_buffer(&buf);
+			lag_destroy_window(&win);
+			free(px_hash.content);
+			free(px_star.content);
+			free(px_pipe.content);
+			return (0);
+		} else if (event.type == EVENT_RESIZE) {
+			lag_autoresize_window(&win);
+			
+		}
 
 		lag_clear_window(&win);
 		lag_clear_buffer(&buf);

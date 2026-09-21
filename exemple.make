@@ -19,7 +19,7 @@ endif
 
 CC          := gcc
 CFLAGS      := -Wall -Wextra -Werror -I$(INC_DIR) -I$(LAG_INC_DIR)
-LDFLAGS     := -L$(LAG_LIB_DIR) -llag -lncurses -lm
+LDFLAGS     := -L$(LAG_LIB_DIR) -llag
 
 all: $(NAME)
 

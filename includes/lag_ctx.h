@@ -2,8 +2,9 @@
 # define LAG_CTX_H
 
 # include <stdbool.h>
-# include <stdio.h>
+# include <unistd.h>
+# include <string.h>
 
 bool	lag_init(void);
 
-#endif /* LAG_CTX_H */
+#endif

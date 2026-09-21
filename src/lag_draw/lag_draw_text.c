@@ -10,6 +10,7 @@ bool lag_draw_text(lag_buffer *buf, lag_vec2 start, char *str, lag_color *fg, la
 		char	c[2] = {str[i], '\0'};
 		if (!lag_set_pixel(&px, c, fg, bg)) return false;
 		lag_set_buffer(buf, &px, (lag_vec2){i + start.x, start.y});
+		free(px.content);
 	}
 	return true;
 }

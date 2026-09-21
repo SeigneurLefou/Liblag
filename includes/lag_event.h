@@ -3,23 +3,25 @@
 
 # include <stdbool.h>
 # include <signal.h>
+# include <stddef.h>
 
 typedef enum e_event_type {
-	lag_EVENT_NONE = 0,
-	lag_EVENT_KEY_PRESS,
-	lag_EVENT_RESIZE,
-	lag_EVENT_QUIT
-} t_event_type;
+	EVENT_NONE = 0,
+	EVENT_KEY_PRESS,
+	EVENT_RESIZE,
+	EVENT_QUIT
+} lag_event_type;
 
 typedef struct s_lag_event {
-	t_event_type type;
+	lag_event_type	type;
 	int key;
-} t_lag_event;
+	// TODO use a union for event for use less memory
+} lag_event;
 
-extern volatile sig_atomic_t g_lag_running;
-extern volatile sig_atomic_t g_lag_resized;
+extern volatile sig_atomic_t	g_lag_running;
+extern volatile sig_atomic_t	g_lag_resized;
 
 bool	lag_init_signals(void);
-bool	lag_poll_event(t_lag_event *event);
+bool	lag_poll_event(lag_event *event);
 
 #endif

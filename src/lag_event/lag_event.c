@@ -1,6 +1,4 @@
 #include "lag_event.h"
-#include <signal.h>
-#include <stddef.h>
 
 volatile sig_atomic_t g_lag_running = 1;
 volatile sig_atomic_t g_lag_resized = 0;
@@ -27,19 +25,19 @@ bool lag_init_signals(void) {
 	return true;
 }
 
-bool lag_poll_event(t_lag_event *event) {
+bool lag_poll_event(lag_event *event) {
 	if (!event) return false;
 
 	if (!g_lag_running) {
-		event->type = lag_EVENT_QUIT;
+		event->type = EVENT_QUIT;
 		return true;
 	}
 	if (g_lag_resized) {
 		g_lag_resized = 0;
-		event->type = lag_EVENT_RESIZE;
+		event->type = EVENT_RESIZE;
 		return true;
 	}
 
-	event->type = lag_EVENT_NONE;
+	event->type = EVENT_NONE;
 	return false;
 }
