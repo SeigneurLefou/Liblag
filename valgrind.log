@@ -1,0 +1,16 @@
+==4148993== Memcheck, a memory error detector
+==4148993== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==4148993== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==4148993== Command: test/game
+==4148993== 
+==4148993== 
+==4148993== FILE DESCRIPTORS: 3 open (3 std) at exit.
+==4148993== 
+==4148993== HEAP SUMMARY:
+==4148993==     in use at exit: 0 bytes in 0 blocks
+==4148993==   total heap usage: 1,245 allocs, 1,245 frees, 204,849,122 bytes allocated
+==4148993== 
+==4148993== All heap blocks were freed -- no leaks are possible
+==4148993== 
+==4148993== For lists of detected and suppressed errors, rerun with: -s
+==4148993== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
