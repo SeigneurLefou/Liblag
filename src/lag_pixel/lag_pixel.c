@@ -48,27 +48,20 @@ int lag_get_pixel_size(const lag_pixel *pixel) {
 	return size;
 }
 
-char *lag_pixel_to_str(const lag_pixel *pixel) {
-	if (!pixel)
-		return NULL;
-
-	int size = lag_get_pixel_size(pixel);
-	char *res = malloc(size + 1);
-	if (!res)
-		return NULL;
-
+bool lag_pixel_to_str(const lag_pixel *pixel, char *out_buf, size_t max_len) {
+	if (!pixel || !out_buf) return false;
+	
 	int offset = 0;
 	const char *c = (pixel->ch[0]) ? pixel->ch : " ";
 
 	if (pixel->has_bg) {
-		offset += sprintf(res + offset, "\033[48;2;%u;%u;%um",
-						  pixel->bg.r, pixel->bg.g, pixel->bg.b);
+		offset += snprintf(out_buf + offset, max_len - offset, 
+						   "\033[48;2;%u;%u;%um", pixel->bg.r, pixel->bg.g, pixel->bg.b);
 	}
 	if (pixel->has_fg) {
-		offset += sprintf(res + offset, "\033[38;2;%u;%u;%um",
-						  pixel->fg.r, pixel->fg.g, pixel->fg.b);
+		offset += snprintf(out_buf + offset, max_len - offset, 
+						   "\033[38;2;%u;%u;%um", pixel->fg.r, pixel->fg.g, pixel->fg.b);
 	}
-
-	sprintf(res + offset, "%s\033[39;49m", c);
-	return res;
+	snprintf(out_buf + offset, max_len - offset, "%s\033[39;49m", c);
+	return true;
 }

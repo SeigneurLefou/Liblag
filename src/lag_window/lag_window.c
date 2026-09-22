@@ -1,7 +1,7 @@
 #include "lag_window.h"
 
 static size_t lag_calc_frame_buffer_size(unsigned int width, unsigned int height) {
-	return 3 + ((size_t)width * height * LAG_MAX_PIXEL_BYTES) + height + 64;
+	return 3 + ((size_t)width * height * LAG_MAX_PIXEL_BYTES) + height + LAG_MAX_PIXEL_BYTES;
 }
 
 bool lag_create_window(lag_window *win, lag_window_infos *win_infos) {
@@ -116,6 +116,7 @@ bool lag_resize_window(lag_window *win, uint width, uint height) {
 
 	if (!win || !(win->infos->flags & IS_RESIZABLE) || ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == -1)
 		return (false);
+	if (win->infos->width == width && win->infos->height == height) return true;
 
 	max_x = ws.ws_col;
 	max_y = ws.ws_row;
