@@ -18,6 +18,7 @@ include src/lag_buffer/lag_buffer.make
 include src/lag_utils/lag_utils.make
 include src/lag_pixel/lag_pixel.make
 include src/lag_event/lag_event.make
+include src/lag_path/lag_path.make
 include src/lag_time/lag_time.make
 include src/lag_window/lag_window.make
 

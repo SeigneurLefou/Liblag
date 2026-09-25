@@ -7,5 +7,8 @@
 # include "lag_draw.h"
 # include "lag_event.h"
 # include "lag_time.h"
+# include "lag_pixel.h"
+# include "lag_vec2.h"
+# include "lag_utils.h"
 
 #endif
