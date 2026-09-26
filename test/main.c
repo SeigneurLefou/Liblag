@@ -14,14 +14,6 @@ static void on_window_quit(void *arg) {
 	game->is_running = false;
 }
 
-static void on_window_resize(void *arg) {
-	t_game *game = (t_game *)arg;
-
-	lag_autoresize_window(game->win);
-	lag_destroy_buffer(game->buf);
-	lag_create_window_buffer(game->buf, game->win);
-}
-
 int main(void)
 {
 	t_game            game = {0};
@@ -62,7 +54,7 @@ int main(void)
 
 	lag_signal_callbacks sig_cbs = {
 		.on_quit   = { .func = on_window_quit,   .args = &game },
-		.on_resize = { .func = on_window_resize, .args = &game }
+		.on_resize = { .func = NULL, .args = NULL }
 	};
 
 	if (!lag_init_signals(&sig_cbs)) {
@@ -76,10 +68,11 @@ int main(void)
 	while (game.is_running) {
 		while (lag_poll_event(&event)) {
 			if (event.type == LAG_WINDOW_EVENT) {
-				if (event.window.type == LAG_WIN_QUIT && sig_cbs.on_quit.func)
-					sig_cbs.on_quit.func(sig_cbs.on_quit.args);
-				else if (event.window.type == LAG_WIN_RESIZE && sig_cbs.on_resize.func)
-					sig_cbs.on_resize.func(sig_cbs.on_resize.args);
+				if (event.window.type == LAG_WIN_RESIZE) {
+					lag_autoresize_window(&win);
+					lag_destroy_buffer(&buf);
+					lag_create_window_buffer(&buf, &win);
+				}
 			}
 		}
 
