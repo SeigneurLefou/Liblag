@@ -9,6 +9,7 @@
 # include "lag_time.h"
 # include "lag_pixel.h"
 # include "lag_vec2.h"
+# include "lag_path.h"
 # include "lag_utils.h"
 
 #endif
